@@ -54,43 +54,60 @@ This rich dataset provides the foundation for analyzing **trends**, **skills dem
 ### ◆ EDA (Exploratory Data Analysis)
 #### ◇ Data Analyst Analysis
 - **Top Locations** 
+![Top locations DA CA](/Plots/1_EDA/top_locations_da.png)
 - **Remote and Degree Requirement Jobs** 
+![Degree/Remote](/Plots/1_EDA/home_degree_da.png)
 - **Top companies**  
+![Top companies DA CA](/Plots/1_EDA/top_companies_da.png)
 
 #### ◇ Data Scientist Analysis
 - **Top Locations** 
+![Top locations DA CA](/Plots/1_EDA/top_locations_ds.png)
 - **Remote and Degree Requirement Jobs** 
+![Degree/Remote](/Plots/1_EDA/home_degree_ds.png)
 - **Top companies**  
+![Top companies DA CA](/Plots/1_EDA/top_companies_ds.png)
 
 ### ◆ Top Skills for the 5 Most Popular Data Roles
 
-
+![Top Skills for Top 6 Data Roles](/Plots/2_Skills_Count/top_6_data_roles.png)
+![Skill appereance on job postings (%)](/Plots/2_Skills_Count/skill_per_top_jobs.png)
 
 
 ### ◆ Trend of Top Skills
 
 #### ◇ Data Analyst Analysis
-1. Skills to Learn
-2. Top Technologies
+![Skill Trend for Data Analyst](/Plots/3_Skill_Trend/skills_trend_da.png)
 
 #### ◇ Data Scientist Analysis
-1. Skills to Learn
-2. Top Technologies
-
-
-
+![Skill Trend for Data Scientist](/Plots/3_Skill_Trend/skills_trend_ds.png)
 
 
 ### ◆ Salary Analysis
 #### ◇ Median Salary for Top 6 Data Jobs
-#### ◇ Most Paying vs. Most Common Skills Data Analyst
-#### ◇ Most Paying vs. Most Common Skills Data Scientist
+![Salary Distribution Top 6 Data Roles](/Plots/4_Salary_Analysis/salary_distribution_top_6_roles.png)
 
+#### ◇ Most Paying vs. Most Common Skills Data Analyst
+![Most paying vs. Most Common skills Salary for DA](/Plots/4_Salary_Analysis/most_pay_freq_skills_da.png)
+
+#### ◇ Most Paying vs. Most Common Skills Data Scientist
+![Most paying vs. Most Common skills Salary for DS](/Plots/4_Salary_Analysis/most_pay_freq_skills_ds.png)
 
 ### ◆ Optimal Skills to Learn
+
 #### ◇ Data Analyst Analysis
+1. Skills to Learn
+![Skills to Learn DA](/Plots/5_Optimal_Skills/skills_to_learn_da.png)
+
+2. Top Technologies
+![Top technologies DA](/Plots/5_Optimal_Skills/tech_skills_da.png)
 
 #### ◇ Data Scientist Analysis
+1. Skills to Learn
+![Skills to Learn DS](/Plots/5_Optimal_Skills/skills_to_learn_ds.png)
+
+2. Top Technologies
+![Top technologies DS](/Plots/5_Optimal_Skills/tech_skills_ds.png)
 
 
 
