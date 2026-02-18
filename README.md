@@ -35,11 +35,78 @@ This rich dataset provides the foundation for analyzing **trends**, **skills dem
 
 
 ## ◼️ Methodology 🔬
-### ◆ EDA (Exploratory Data Analysis)
+To develop this project, we formulated a set of guiding questions that helped us design clear, step-by-step methodologies for each analysis, ensuring a structured and consistent workflow.
+
+The first step in this process was preparing the data for analysis. This included importing the necessary libraries, loading the dataset, performing data cleaning, filtering job postings for the year 2025, and creating a month column to enable time-based analysis and proper chronological ordering.
+
+
+```python
+# Importing Libraries
+import ast # To convert the skils to a list
+import pandas as pd 
+import seaborn as sns
+from datasets import load_dataset
+import matplotlib.pyplot as plt
+
+# Loading Data (Job postings)
+df = pd.read_csv(r"C:\Users\WIN10\Desktop\Job_Analysis_2025\Job_CSV\jobs_postings.csv")
+
+
+# Data clean up
+df['job_posted_date'] = pd.to_datetime(df['job_posted_date'])
+df['job_skills'] = df['job_skills'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) else x)
+
+# Create the column month (data will be analyzed monthly)
+df['job_posted_month'] = df['job_posted_date'].dt.strftime('%b')
+
+# Filter by the year and sorting by month
+df_2025 = df[df['job_posted_date'].dt.year == 2025].copy()
+month_order = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+df_2025['job_posted_month'] = pd.Categorical(
+    df_2025['job_posted_month'],
+    categories=month_order,
+    ordered=True
+)
+```
+
 ### ◆ Top Skills for the 5 Most Popular Data Roles
+
+**QUESTION**: What are the most demanded skills for the top 5 most popular data roles?
+
+**Step-By-Step Approach**
+
+1. Clean-up skill column
+2. Calculate skill count based on job title ('job_title_short' on our Dataset)
+3. Calculate skill percentage
+4. Plot final findings
+
 ### ◆ Trend of Top Skills
+**QUESTION:** How are in-demand skills trending for Data Analysts and Scientists in Canada?
+
+**Step-By-Step Approach**
+1. Aggregate skill counts monthly
+2. Analyze based on the skill count to compare the frequency of each skills
+3. Plot the monthly skill demand
+
 ### ◆ Salary Analysis
+
+**QUESTION:** How well do jobs and skills pay for Data Analysts and Data Scientists?
+
+**Step-By-Step Approach**
+1. Evaluate median salary for top 6 data jobs
+2. Find the median salary per skill for Data Analysts and Scientists
+3. Visualize for highest paying skills and most demanded skills
+
 ### ◆ Optimal Skills to Learn
+**QUESTION:** What is the most optimal skills to learn for Data Analysts and Data Scientists?
+
+**Step-By-Step Approach**
+1. Group skills to determine median salary and likelihood of being in posting
+2. Visualize median salary vs percent skill demand
+3. Determine if certain technologies are more prevalent
+
+
 
 ## ◼️ Tools Used ⚙️
 - **Python**: The backbone of everything—this is where the magic happens. I used it to analyze and visualize job market data with pandas for data manipulation, matplotlib and seaborn for creating compelling visualizations, plus foundational Python skills to tie it all together.
