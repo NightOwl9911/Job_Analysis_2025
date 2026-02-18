@@ -70,7 +70,6 @@ This rich dataset provides the foundation for analyzing **trends**, **skills dem
 
 ### ◆ Top Skills for the 5 Most Popular Data Roles
 
-![Top Skills for Top 6 Data Roles](/Plots/2_Skills_Count/top_6_data_roles.png)
 ![Skill appereance on job postings (%)](/Plots/2_Skills_Count/skill_per_top_jobs.png)
 
 
@@ -96,17 +95,17 @@ This rich dataset provides the foundation for analyzing **trends**, **skills dem
 ### ◆ Optimal Skills to Learn
 
 #### ◇ Data Analyst Analysis
-1. Skills to Learn
+- **Skills to Learn** 
 ![Skills to Learn DA](/Plots/5_Optimal_Skills/skills_to_learn_da.png)
 
-2. Top Technologies
+- **Top Technologies** 
 ![Top technologies DA](/Plots/5_Optimal_Skills/tech_skills_da.png)
 
 #### ◇ Data Scientist Analysis
-1. Skills to Learn
+- **Skills to Learn**
 ![Skills to Learn DS](/Plots/5_Optimal_Skills/skills_to_learn_ds.png)
 
-2. Top Technologies
+- **Top Technologies** 
 ![Top technologies DS](/Plots/5_Optimal_Skills/tech_skills_ds.png)
 
 
