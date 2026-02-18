@@ -33,6 +33,56 @@ The dataset contains comprehensive information about job listings with multiple 
 
 This rich dataset provides the foundation for analyzing **trends**, **skills demand**, and **salary patterns** in the Canadian data job market. 🚀
 
+## ◼️ Dataset Structure 📂
+
+The dataset includes the following columns, organized by category:
+
+🧑‍💼 Job Information
+
+- job_title_short — str
+
+- job_title — str
+
+- job_location — str
+
+- job_country — str
+
+- company_name — str
+
+🧾 Job Details
+
+- job_via — str
+
+- job_schedule_type — str
+
+- job_work_from_home — bool
+
+- job_no_degree_mention — bool
+
+- job_health_insurance — bool
+
+📅 Time Information
+
+- job_posted_date — str
+
+📊 Salary Information
+
+- salary_rate — str
+
+- salary_year_avg — float64
+
+- salary_hour_avg — float64
+
+🔍 Skills & Requirements
+
+- job_skills — str
+
+- job_type_skills — str
+
+🌍 Search Context
+
+- search_location — str
+
 
 ## ◼️ Methodology 🔬
 To develop this project, we formulated a set of guiding questions that helped us design clear, step-by-step methodologies for each analysis, ensuring a structured and consistent workflow.
@@ -81,6 +131,22 @@ df_2025['job_posted_month'] = pd.Categorical(
 3. Calculate skill percentage
 4. Plot final findings
 
+**Example Implementation** 💻
+```python
+# Filter job postings for Canada
+df_ca = df_2025[df_2025['job_country'] == 'Canada']
+
+# Explode the skills column to analyze individual skills
+df_skills = df_ca.explode('job_skills')
+
+# Count skill occurrences per job role
+df_skills_count = (df_skills.groupby(['job_skills', 'job_title_short'])
+                   .size()
+                   .reset_index(name='skill_count')
+                   .sort_values(by='skill_count', ascending=False))
+
+```
+
 ### ◆ Trend of Top Skills
 **QUESTION:** How are in-demand skills trending for Data Analysts and Scientists in Canada?
 
@@ -88,6 +154,41 @@ df_2025['job_posted_month'] = pd.Categorical(
 1. Aggregate skill counts monthly
 2. Analyze based on the skill count to compare the frequency of each skills
 3. Plot the monthly skill demand
+
+**Example Implementation** 💻
+```python
+# Pivot the information for Data Analysts
+df_da_pivot = (df_da_ex.pivot_table(index='job_posted_month', 
+                                    columns='job_skills', 
+                                    aggfunc='size', 
+                                    fill_value=0))
+
+# Identify top skills based on total frequency
+df_da_pivot.loc['Total'] = df_da_pivot.sum()
+
+# Sort columns and keep top 5 skills
+sort_columns = df_da_pivot.loc['Total'].sort_values(ascending=False).index
+df_da_pivot = df_da_pivot[sort_columns]
+df_da_pivot = df_da_pivot.drop('Total')
+df_da_pivot = df_da_pivot.iloc[:, :5]
+
+
+# Pivot the information for Data Scientists
+df_ds_pivot = (df_ds_ex.pivot_table(index='job_posted_month', 
+                                    columns='job_skills', 
+                                    aggfunc='size', 
+                                    fill_value=0))
+
+# Identify top skills based on total frequency
+df_ds_pivot.loc['Total'] = df_ds_pivot.sum()
+sort_columns = df_ds_pivot.loc['Total'].sort_values(ascending=False).index
+
+# Sort columns and keep top 5 skills
+df_ds_pivot = df_ds_pivot[sort_columns]
+df_ds_pivot = df_ds_pivot.drop('Total')
+df_ds_pivot = df_ds_pivot.iloc[:, :5]
+```
+
 
 ### ◆ Salary Analysis
 
@@ -98,6 +199,44 @@ df_2025['job_posted_month'] = pd.Categorical(
 2. Find the median salary per skill for Data Analysts and Scientists
 3. Visualize for highest paying skills and most demanded skills
 
+**Example Implementation** 💻
+```python
+# Create the plot
+fig, ax = plt.subplots(figsize=(10, 8))
+
+roles_palette = {
+    "Data Analyst": "#4C72B0",
+    "Senior Data Scientist": "#DD8452",
+    "Business Analyst": "#55A868",
+    "Data Engineer": "#C44E52",
+    "Software Engineer": "#8172B3",
+    "Data Scientist": "#937860"
+}
+
+sns.violinplot(
+    data=df_top6,
+    x='salary_year_avg',
+    y='job_title_short',
+    hue='job_title_short',
+    palette=roles_palette,
+    order=order,
+    dodge=False,
+    legend=False,
+    ax=ax
+)
+
+# Format axis
+ax.xaxis.set_major_formatter(
+    plt.FuncFormatter(lambda x, pos: f"${int(x/1000)}K")
+)
+
+ax.set_xlabel('Median Salary')
+ax.set_title('Salary Distribution by Data Role')
+ax.set_ylabel('')
+
+plt.show()
+```
+
 ### ◆ Optimal Skills to Learn
 **QUESTION:** What is the most optimal skills to learn for Data Analysts and Data Scientists?
 
@@ -106,6 +245,51 @@ df_2025['job_posted_month'] = pd.Categorical(
 2. Visualize median salary vs percent skill demand
 3. Determine if certain technologies are more prevalent
 
+**Example Implementation** 💻
+```python
+# Extract technology data
+df_tech = df_2025['job_type_skills'].drop_duplicates().dropna()
+
+# Combine all dictionaries into a single structure
+tech_dict = {}
+
+for row in df_tech:
+    row_dict = ast.literal_eval(row)  # Convert string to dictionary
+    
+    for key, value in row_dict.items():
+        if key in tech_dict:
+            tech_dict[key] += value
+        else:
+            tech_dict[key] = value
+
+# Remove duplicates from skill lists
+for key in tech_dict:
+    tech_dict[key] = list(set(tech_dict[key]))
+
+# Convert dictionary to DataFrame
+df_technologies = pd.DataFrame(
+    list(tech_dict.items()), 
+    columns=['technology', 'skills']
+)
+
+# Explode skills for merging
+df_technologies = df_technologies.explode('skills')
+
+# Merge with high-demand skills
+df_da_merge = pd.merge(
+    df_da_highd.reset_index(),
+    df_technologies,
+    left_on='job_skills',
+    right_on='skills'
+)
+
+df_ds_merge = pd.merge(
+    df_ds_highd.reset_index(),
+    df_technologies,
+    left_on='job_skills',
+    right_on='skills'
+)
+```
 
 
 ## ◼️ Tools Used ⚙️
